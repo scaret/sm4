@@ -1,0 +1,25 @@
+{
+  "name": "sm4-128-ecb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "SM4.ts",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "example": "ts-node example/test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scaret/sm4.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scaret/sm4/issues"
+  },
+  "homepage": "https://github.com/scaret/sm4#readme",
+  "devDependencies": {
+    "ts-node": "^10.0.0"
+  }
+}
