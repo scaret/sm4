@@ -1,7 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 const util = require("util")
-const SM4 = require("..")
+const SM4 = require("../SM4")
 
 const content = fs.readFileSync(path.join(__dirname, "messages.txt"));
 const messages = content.toString().trim().split("\n");
@@ -25,3 +25,5 @@ for (let str_data of messages){
     let text = SM4.uint8ArrayToString(decoded);
     console.log("国密sm4解密后的结果：", text);
 }
+
+export {}

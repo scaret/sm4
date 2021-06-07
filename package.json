@@ -2,12 +2,16 @@
   "name": "sm4-128-ecb",
   "version": "1.0.0",
   "description": "",
-  "main": "SM4.ts",
+  "main": "dist/SM4.js",
+  "types": "dist/SM4.d.ts",
   "directories": {
     "example": "example"
   },
   "scripts": {
-    "example": "ts-node example/test.ts"
+    "test": "jest --verbose",
+    "build": "tsc --declaration true --outDir dist SM4.ts",
+    "watch": "tsc --declaration true --outDir dist --watch SM4.ts",
+    "example": "ts-node example/example.ts"
   },
   "repository": {
     "type": "git",
@@ -20,6 +24,10 @@
   },
   "homepage": "https://github.com/scaret/sm4#readme",
   "devDependencies": {
-    "ts-node": "^10.0.0"
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.4",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
   }
 }

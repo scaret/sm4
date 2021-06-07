@@ -1,3 +1,4 @@
+#!/usr/local/bin/python3
 from gmssl.sm4 import CryptSM4, SM4_ENCRYPT, SM4_DECRYPT
 import binascii
 from heapq import heappush, heappop
@@ -50,7 +51,7 @@ SM4 = SM4()
 fo = open("messages.txt", "r")
 for line in fo.readlines():
     str_data = line.strip()
-    print("待加密内容：", len(str_data), str_data)
+    print("待加密内容：", len(str_data), "字节", str_data)
     encoding = SM4.encrypt(key, str_data)
-    print("国密sm4加密后的结果：", int(len(encoding) / 2), encoding)
+    print("国密sm4加密后的结果：", int(len(encoding) / 2), "字节", encoding)
     print("国密sm4解密后的结果：", SM4.decrypt(key, encoding))
