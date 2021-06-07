@@ -460,19 +460,31 @@ function sm4_setkey_dec(ctx:SM4Ctx, key:Uint8Array) {
   ctx.sk = ctx.sk.reverse();
 }
 
-function sm4_crypt_ecb(ctx:SM4Ctx, input:Uint8Array) {
-  // alert("input"+input[0]+input[1]);
-  // alert("input-size"+input.length);
+function sm4_crypt_ecb(ctx:SM4Ctx, input:Uint8Array, options?:{shiftStart?: number}) {
+  if (!options){
+    options = {};
+  }
+  if (!options.shiftStart){
+    options.shiftStart = 0;
+  }
   if (ctx.isPadding && ctx.mode == 1) {
     input = padding(input, 1);
   }
   // alert("input-size"+input.length)
-  var length = input.length;
+  var inputLength = input.length;
   // console.error("sm4_crypt_ecb input.length", input.length, "input", input)
-  var bous = new Uint8Array(input.length);
-  for (var t = 0; t < length; t += 16) {
-    var inn = new Uint8Array(input.buffer, t, 16);
-    var out = new Uint8Array(bous.buffer, t, 16);
+  var inputOffset, outputOffset;
+  if (ctx.mode == 1){
+    inputOffset = 0;
+    outputOffset = options.shiftStart;
+  }else{
+    inputOffset = options.shiftStart;
+    outputOffset = 0;
+  }
+  var bous = new Uint8Array(inputLength + outputOffset - inputOffset);
+  for (var t = 0; t < inputLength - inputOffset; t += 16) {
+    var inn = new Uint8Array(input.buffer, t + inputOffset, 16);
+    var out = new Uint8Array(bous.buffer, t + outputOffset, 16);
     // alert("inn-size"+inn.length);
     sm4_rounds(ctx.sk, inn, out);
     // alert("out-size"+out.length)
@@ -531,7 +543,7 @@ function uint8ArrayToString(u8Arr:Uint8Array) {
 function uint8ArrayToHex(u8Arr:Uint8Array) {
   let str = "";
   for (let i = 0; i < u8Arr.length; i++){
-    str += u8Arr[i].toString(16);
+    str += u8Arr[i].toString(16).padStart(2, "0");
   }
   return str;
 }
