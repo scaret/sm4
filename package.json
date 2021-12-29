@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest --verbose",
-    "build": "tsc --declaration true --outDir dist SM4.ts",
+    "build": "webpack-cli -c webpack.config.prod.js",
     "watch": "tsc --declaration true --outDir dist --watch SM4.ts",
     "example": "ts-node example/example.ts"
   },
@@ -27,7 +27,10 @@
     "@types/jest": "^26.0.23",
     "jest": "^27.0.4",
     "ts-jest": "^27.0.3",
+    "ts-loader": "^9.2.6",
     "ts-node": "^10.0.0",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.2",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1"
   }
 }
