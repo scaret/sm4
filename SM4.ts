@@ -548,6 +548,44 @@ function uint8ArrayToHex(u8Arr:Uint8Array) {
   return str;
 }
 
+const rc4_encrypt = (input: Uint8Array, key: Uint8Array, options: {shiftStart: number}) => {
+  return input.length && key.length ? rc4(input, key, options.shiftStart) : null;
+}
+
+const rc4_decrypt = (input: Uint8Array, key: Uint8Array, options?: {shiftStart: number}) => {
+  return input.length && key.length ? rc4(input, key, options?.shiftStart) : null;
+}
+
+const rc4 = (input: Uint8Array, key: Uint8Array, shiftStart: number = 0) => {
+
+  let s = [], i = 0, j = 0, x;
+  for (let i = 0; i < 256; i++) {
+    s[i] = i;
+  }
+
+  for (let i = 0; i < 256; i++) {
+    j = (j + s[i] + key[i % key.length]) % 256;
+    x = s[i];
+    s[i] = s[j];
+    s[j] = x;
+  }
+
+  i = 0;
+  j = 0;
+
+  for (let y = shiftStart; y < input.length; y++) {
+
+    i = (i + 1) % 256;
+    j = (j + s[i]) % 256;
+    x = s[i];
+    s[i] = s[j];
+    s[j] = x;
+    input[y] = input[y] ^ s[(s[i] + s[j]) % 256];
+  }
+  return input;
+}
+
+
 export {
   SM4Ctx,
   sm4_crypt_ecb,
@@ -557,4 +595,6 @@ export {
   stringToUint8Array,
   uint8ArrayToString,
   uint8ArrayToHex,
+  rc4_encrypt,
+  rc4_decrypt,
 }

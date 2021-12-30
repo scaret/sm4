@@ -13,4 +13,10 @@ declare function stringToByte(str: string): any[];
 declare function stringToUint8Array(str: string): Uint8Array;
 declare function uint8ArrayToString(u8Arr: Uint8Array): string;
 declare function uint8ArrayToHex(u8Arr: Uint8Array): string;
-export { SM4Ctx, sm4_crypt_ecb, sm4_setkey_enc, sm4_setkey_dec, stringToByte, stringToUint8Array, uint8ArrayToString, uint8ArrayToHex, };
+declare const rc4_encrypt: (input: Uint8Array, key: Uint8Array, options: {
+    shiftStart: number;
+}) => Uint8Array;
+declare const rc4_decrypt: (input: Uint8Array, key: Uint8Array, options?: {
+    shiftStart: number;
+}) => Uint8Array;
+export { SM4Ctx, sm4_crypt_ecb, sm4_setkey_enc, sm4_setkey_dec, stringToByte, stringToUint8Array, uint8ArrayToString, uint8ArrayToHex, rc4_encrypt, rc4_decrypt, };
