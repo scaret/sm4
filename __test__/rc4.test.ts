@@ -23,16 +23,23 @@ test('rc4', () => {
             2,
             "30303febdaace8cf9064128287b120842aadaa04f8e9b56a441cc816de25b17913ff25adff8e465ed54ee1d0114d0068e4f294f87c57b4d9c00f3504a63d15b233595e5ffc08"
         ],
+        [
+            "00AAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCDDDDDDDDDDDDDDDDEEEE",
+            2,
+            "30303febdaace8cf9064128287b120842aad42424242424242424242424242424242434343434343434343434343434343434444444444444444444444444444444445454545",
+            18
+        ],
     ]
     for (let data of dataset){
         const str_data = data[0];
         const shiftStart = data[1];
         const hexResult = data[2]
+        const end = data[3];
         let u8Arr = SM4.stringToUint8Array(str_data);
-        let encoding = SM4.rc4_encrypt(u8Arr, key ,{shiftStart});
+        let encoding = SM4.rc4_encrypt(u8Arr, key ,{shiftStart, end});
         let hexOut = SM4.uint8ArrayToHex(encoding);
         expect(hexOut).toBe(hexResult);
-        let decoded = SM4.rc4_decrypt(u8Arr, key,  {shiftStart});
+        let decoded = SM4.rc4_decrypt(u8Arr, key,  {shiftStart, end});
         let text = SM4.uint8ArrayToString(decoded);
         expect(text).toBe(str_data);
     }

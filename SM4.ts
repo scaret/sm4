@@ -548,16 +548,17 @@ function uint8ArrayToHex(u8Arr:Uint8Array) {
   return str;
 }
 
-const rc4_encrypt = (input: Uint8Array, key: Uint8Array, options: {shiftStart: number}) => {
-  return input.length && key.length ? rc4(input, key, options.shiftStart) : null;
+const rc4_encrypt = (input: Uint8Array, key: Uint8Array, options: {shiftStart: number, end?: number}) => {
+  // 不包含end这位
+  return input.length && key.length ? rc4(input, key, options.shiftStart, options.end) : null;
 }
 
-const rc4_decrypt = (input: Uint8Array, key: Uint8Array, options?: {shiftStart: number}) => {
-  return input.length && key.length ? rc4(input, key, options?.shiftStart) : null;
+const rc4_decrypt = (input: Uint8Array, key: Uint8Array, options?: {shiftStart: number, end?: number}) => {
+  return input.length && key.length ? rc4(input, key, options?.shiftStart, options?.end) : null;
 }
 
-const rc4 = (input: Uint8Array, key: Uint8Array, shiftStart: number = 0) => {
-
+const rc4 = (input: Uint8Array, key: Uint8Array, shiftStart: number = 0, end: number = Number.MAX_SAFE_INTEGER) => {
+  // 直接改变输入
   let s = [], i = 0, j = 0, x;
   for (let i = 0; i < 256; i++) {
     s[i] = i;
@@ -573,7 +574,7 @@ const rc4 = (input: Uint8Array, key: Uint8Array, shiftStart: number = 0) => {
   i = 0;
   j = 0;
 
-  for (let y = shiftStart; y < input.length; y++) {
+  for (let y = shiftStart; y < Math.min(input.length, end); y++) {
 
     i = (i + 1) % 256;
     j = (j + s[i]) % 256;
